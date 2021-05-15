@@ -35,6 +35,7 @@ public class Menu {
 	}
 	
 	public static void showOptions() {
+		
 		System.out.println("1) Realizar Venta");
 		System.out.println("2) Visualizacion de estantes");
 		System.out.println("3) Gastos Totales");
