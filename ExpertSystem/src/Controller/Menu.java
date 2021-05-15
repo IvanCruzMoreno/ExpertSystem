@@ -3,6 +3,7 @@ package Controller;
 import java.util.Scanner;
 
 import Seccion1.Ventas;
+import Seccion3.GastosTotales;
 
 public class Menu {
 
@@ -10,6 +11,7 @@ public class Menu {
 	public static void main(String[] args) {
 		
 		Ventas ventas = new Ventas();
+		GastosTotales gastosTotales = new GastosTotales();
 		
 		System.out.println("------------------");
 		System.out.println("Bienvenido Experto");
@@ -28,6 +30,7 @@ public class Menu {
 			case 2:
 				break;
 			case 3:
+				gastosTotales.gastosProcess();
 				break;
 			default:
 				break;
