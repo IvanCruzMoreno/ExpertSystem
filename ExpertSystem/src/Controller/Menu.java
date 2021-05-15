@@ -8,7 +8,6 @@ public class Menu {
 		
 		Scanner scanner = new Scanner(System.in);
 		String menu = scanner.nextLine();
-		
-		
 	}
+
 }
