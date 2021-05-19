@@ -27,7 +27,7 @@ public class Ventas {
 		 
 		
 		cantidadStock = getProductoStock(conexion, producto);
-		System.out.println("Cantidad en almacen: " + (cantidadStock - 1));
+		System.out.println("Cantidad en almacen: " + (cantidadStock - cantidad));
 		
 		if(cantidadStock != null && cantidadStock >= cantidad) {
 			
@@ -100,10 +100,10 @@ public class Ventas {
 		
 		try {
 			Statement command = conexion.getConnection().createStatement();
-			ResultSet registro = command.executeQuery("select idProducto,nombre,precio from producto");
+			ResultSet registro = command.executeQuery("select idProducto,nombre,precio,cantidadStock from producto");
 			System.out.println("\n\n\n-- Productos que puedes comprar --\n");
 			while(registro.next()) {
-				System.out.println(" " + registro.getString("idProducto") + " " + registro.getString("nombre") + " " + registro.getString("precio"));
+				System.out.println(" " + registro.getString("idProducto") + " " + registro.getString("nombre") + " " + registro.getString("precio") + " ---> " + registro.getString("cantidadStock"));
 			}
 			
 		} catch (SQLException e) {
