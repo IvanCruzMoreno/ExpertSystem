@@ -28,11 +28,11 @@ public class GastosTotales {
 		float gastosTotales = (agua + luz + comida);
 		float ventas = getVentas(conexion);
 		
-		System.out.println("Las ventas fueron: " + ventas);
-		
+		System.out.println("Total: " + ventas);
+		System.out.println("//////////////////");
 		if(gastosTotales <= ventas) {
 			System.out.println("------------------");
-			System.out.print("La ganancias fueron de: " + (ventas - gastosTotales));
+			System.out.println("La ganancias fueron de: " + (ventas - gastosTotales));
 			System.out.println("------------------");
 		}else {
 			System.out.println("------------------");
@@ -50,12 +50,15 @@ public class GastosTotales {
 			
 			Statement command = conexion.getConnection().createStatement();
 			ResultSet registro = command.executeQuery("select idProducto,cantidadVendidos,precio from producto");
+			System.out.println("------------------");
+			System.out.println("- Productos Vendidos -");
+			System.out.println("Id   Cantidad   Precio");
 			while(registro.next()) {
 				
 				total+= (Integer.parseInt(registro.getString("cantidadVendidos")) * Float.parseFloat(registro.getString("precio")));
-				//System.out.println(" " + registro.getString("idProducto") + " " + registro.getString("cantidadVendidos") + " " + registro.getString("precio"));
+				System.out.println(registro.getString("idProducto") + "       " + registro.getString("cantidadVendidos") + "       " + registro.getString("precio"));
 			}
-			
+			System.out.println("------------------");
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
