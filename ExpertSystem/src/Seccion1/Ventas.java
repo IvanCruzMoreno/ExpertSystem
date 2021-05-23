@@ -3,8 +3,11 @@ package Seccion1;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import Commons.Producto;
 import Conexion.Conectar;
 
 public class Ventas {
@@ -14,42 +17,64 @@ public class Ventas {
 		
 		Conectar conexion = new Conectar();
 		Integer cantidadStock = null;
-		
-		getAllProductos(conexion);
+		int answer = 2; 
+		int producto = 0;
+		int cantidad = 0;
 		
 		Scanner scanner = new Scanner(System.in);
+		List<Producto> productos = new ArrayList<>();
 		
-		System.out.println("Producto a procesar: ");
-		int producto = scanner.nextInt();
-		 
-		System.out.println("Cantidad del producto a procesar: ");
-		int cantidad = scanner.nextInt();
-		 
-		
-		cantidadStock = getProductoStock(conexion, producto);
-		System.out.println("Cantidad en almacen: " + (cantidadStock - cantidad));
-		
-		if(cantidadStock != null && cantidadStock >= cantidad) {
+		do {
 			
-			updateProductoStock(conexion, producto, cantidad, cantidadStock);
-			updateProductoVendidos(conexion, producto, cantidad);
+			getAllProductos(conexion);
 			
-			showFactura(conexion, scanner, producto, cantidad);
+			System.out.println("Producto a procesar: ");
+			producto = scanner.nextInt();
+			 
+			System.out.println("Cantidad del producto a procesar: ");
+			cantidad = scanner.nextInt();
 			
-		}else {
-			System.err.println("-- No se pudo realizar la compra --");
-		}
+			cantidadStock = getProductoStock(conexion, producto);
+			System.out.println("Cantidad en almacen: " + (cantidadStock - cantidad));
+			System.out.println("\n");
+			
+			if(cantidadStock != null && cantidadStock >= cantidad) {
+				
+				productos.add(new Producto(producto, cantidad));
+				
+				updateProductoStock(conexion, producto, cantidad, cantidadStock);
+				updateProductoVendidos(conexion, producto, cantidad);
+				
+				System.out.println("\n¿Quieres seguir comprando?");
+				System.out.print("1) Si 2) No:  ");
+				answer = scanner.nextInt();
+				
+			}else {
+				System.err.println("-- No se pudo realizar la compra --");
+				answer = 2;
+			}
+			
+		}while(answer != 2);
 		 
+		showFactura(conexion, scanner, productos);
 	}
 
-	private static void showFactura(Conectar conexion, Scanner scanner, int producto, int cantidad) {
+	private static void showFactura(Conectar conexion, Scanner scanner, List<Producto> productos) {
+		
+		float total = 0;
+		
 		System.out.println("\n------------------");
 		System.out.println("       Factura");
 		System.out.println("------------------");
 		
-		System.out.println("Producto: " + producto);
-		System.out.println("Cantidad " + cantidad);
-		float total = getProductoPrecio(conexion, producto) * cantidad;
+		for (Producto producto : productos) {
+			System.out.println("Producto: " + producto.getIdProducto());
+			System.out.println("Cantidad " + producto.getCantidadVendidos());
+			
+			total += getProductoPrecio(conexion, producto.getIdProducto()) * producto.getCantidadVendidos();
+		}
+		
+		System.out.println("------------------");
 		System.out.println("Total: " + total);
 		
 		float efectivo;
