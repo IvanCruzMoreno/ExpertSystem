@@ -1,10 +1,12 @@
 package Commons;
 
-public class Producto {
+public class Producto implements Comparable<Producto>{
 	
 	private int idProducto;
 	
 	private String nombre;
+	
+	private int cantidadStock;
 	
 	private int cantidadVendidos;
 	
@@ -65,6 +67,33 @@ public class Producto {
 	 */
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+	/**
+	 * @return the cantidadStock
+	 */
+	public int getCantidadStock() {
+		return cantidadStock;
+	}
+	/**
+	 * @param cantidadStock the cantidadStock to set
+	 */
+	public void setCantidadStock(int cantidadStock) {
+		this.cantidadStock = cantidadStock;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj instanceof Producto) {
+	        Producto o = (Producto) obj;
+	        return o.idProducto == this.idProducto;
+	    }
+	    return false;
+	}
+	@Override
+	public int compareTo(Producto o) {
+		String a=new String(String.valueOf(this.getCantidadVendidos()));
+		String b=new String(String.valueOf(o.getCantidadVendidos()));
+		return b.compareTo(a);
 	}
 	
 }
